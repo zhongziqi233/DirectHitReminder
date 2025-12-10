@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<TriggernometryExport PluginVersion="1.2.0.7">
+  <ExportedFolder Id="ba281f31-0afb-47b2-88cb-6712691ddf21" EventFilterRegularExpression="^.{15}ActionEffect 15:.{8}:(?&lt;player&gt;.+?):(?&lt;abilityId&gt;(?!0[78]:)[^:]+):(?&lt;abilityName&gt;[^:]+):.{8}:[^:]*:(?&lt;type&gt;[^:]+):(?&lt;damageCode&gt;[^:]+):.*" Name="直爆广播" Enabled="false">
+    <Folders />
+    <Triggers>
+      <Trigger Enabled="true" Name="小伤害直爆提示" Id="ca5ecaaf-2bf4-4b32-9295-489e014f2209" RegularExpression="^.{15}ActionEffect 15:.{8}:(?&lt;player&gt;.+?):(?&lt;abilityId&gt;(?!0[78]:)[^:]+):(?&lt;abilityName&gt;[^:]+):.{8}:[^:]*:(?&lt;type&gt;[^:]+):(?&lt;damageCode&gt;[^:]+):.*">
+        <Actions>
+          <Action OrderNumber="1" SoundRouting="None" TTSRouting="None" VariableOp="SetNumeric" VariableName="damageBitsLength" VariableExpression="${func:length:${damageCode}} - 4" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="false" Grouping="Or" />
+          </Action>
+          <Action OrderNumber="2" SoundRouting="None" TTSRouting="None" VariableOp="SetString" VariableName="damageHex" VariableExpression="${func:substring(0,${var:damageBitsLength}):${damageCode}}" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="false" Grouping="Or" />
+          </Action>
+          <Action OrderNumber="3" SoundRouting="None" TTSRouting="None" VariableOp="SetNumeric" VariableName="damageReal" VariableExpression="hex2dec(${var:damageHex})" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="false" Grouping="Or" />
+          </Action>
+          <Action OrderNumber="4" NamedCallbackName="command" NamedCallbackParam="/p 我的 ${abilityName} 打出了 ${var:damageReal} 的大直爆！！羡慕不！？" SoundRouting="None" TTSRouting="None" ActionType="NamedCallback" Asynchronous="False">
+            <Condition Enabled="false" Grouping="Or">
+              <ConditionSingle Enabled="true" ExpressionL="${var:damageReal}" ExpressionTypeL="String" ExpressionR="100000" ExpressionTypeR="String" ConditionType="NumericGreaterEqual" />
+            </Condition>
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionGroup Enabled="true" Grouping="And">
+            <ConditionSingle Enabled="true" ExpressionL="${func:substring(-4,1):${type}}" ExpressionTypeL="String" ExpressionR="6" ExpressionTypeR="String" ConditionType="StringEqualNocase" />
+            <ConditionSingle Enabled="true" ExpressionL="${player}" ExpressionTypeL="String" ExpressionR="${_ffxivplayer}" ExpressionTypeR="String" ConditionType="StringEqualNocase" />
+            <ConditionSingle Enabled="true" ExpressionL="${func:substring(-4,1):${damageCode}}" ExpressionTypeL="String" ExpressionR="4" ExpressionTypeR="String" ConditionType="StringNotEqualNocase" />
+          </ConditionGroup>
+        </Condition>
+      </Trigger>
+      <Trigger Enabled="true" Name="大伤害直爆提示" Id="8a6868f6-cfab-48f8-8439-e20dc1ec66ba" RegularExpression="^.{15}ActionEffect 15:.{8}:(?&lt;player&gt;.+?):(?&lt;abilityId&gt;(?!0[78]:)[^:]+):(?&lt;abilityName&gt;[^:]+):.{8}:[^:]*:(?&lt;type&gt;[^:]+):(?&lt;damageCode&gt;[^:]+):.*">
+        <Actions>
+          <Action OrderNumber="1" SoundRouting="None" TTSRouting="None" VariableOp="SetNumeric" VariableName="makeUpBitsLength" VariableExpression="8 - ${func:length:${damageCode}}" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="false" Grouping="Or" />
+          </Action>
+          <Action OrderNumber="2" SoundRouting="None" TTSRouting="None" VariableOp="SetString" VariableName="damageHexCode" VariableExpression="${damageCode}" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="false" Grouping="Or" />
+          </Action>
+          <Action OrderNumber="3" SoundRouting="None" TTSRouting="None" VariableOp="SetString" VariableName="damageHexCode" VariableExpression="0${damageHexCode}" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:makeUpBitsLength}" ExpressionTypeL="String" ExpressionR="0" ExpressionTypeR="String" ConditionType="NumericGreater" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="4" SoundRouting="None" TTSRouting="None" VariableOp="SetNumeric" VariableName="makeUpBitsLength" VariableExpression="${var:makeUpBitsLength} - 1" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:makeUpBitsLength}" ExpressionTypeL="String" ExpressionR="0" ExpressionTypeR="String" ConditionType="NumericGreater" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="5" SoundRouting="None" TTSRouting="None" VariableOp="SetString" VariableName="damageHexCode" VariableExpression="0${damageHexCode}" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:makeUpBitsLength}" ExpressionTypeL="String" ExpressionR="0" ExpressionTypeR="String" ConditionType="NumericGreater" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="6" SoundRouting="None" TTSRouting="None" VariableOp="SetNumeric" VariableName="makeUpBitsLength" VariableExpression="${var:makeUpBitsLength} - 1" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:makeUpBitsLength}" ExpressionTypeL="String" ExpressionR="0" ExpressionTypeR="String" ConditionType="NumericGreater" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="7" SoundRouting="None" TTSRouting="None" VariableOp="SetString" VariableName="damageHexCode" VariableExpression="0${damageHexCode}" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:makeUpBitsLength}" ExpressionTypeL="String" ExpressionR="0" ExpressionTypeR="String" ConditionType="NumericGreater" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="8" SoundRouting="None" TTSRouting="None" VariableOp="SetNumeric" VariableName="makeUpBitsLength" VariableExpression="${var:makeUpBitsLength} - 1" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:makeUpBitsLength}" ExpressionTypeL="String" ExpressionR="0" ExpressionTypeR="String" ConditionType="NumericGreater" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="9" SoundRouting="None" TTSRouting="None" VariableOp="SetString" VariableName="damageHexCode" VariableExpression="0${damageHexCode}" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:makeUpBitsLength}" ExpressionTypeL="String" ExpressionR="0" ExpressionTypeR="String" ConditionType="NumericGreater" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="10" SoundRouting="None" TTSRouting="None" VariableOp="SetNumeric" VariableName="makeUpBitsLength" VariableExpression="${var:makeUpBitsLength} - 1" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:makeUpBitsLength}" ExpressionTypeL="String" ExpressionR="0" ExpressionTypeR="String" ConditionType="NumericGreater" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="11" SoundRouting="None" TTSRouting="None" VariableOp="SetString" VariableName="damageCodeA" VariableExpression="${func:substring(0,2):${var:damageHexCode}}" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="false" Grouping="Or" />
+          </Action>
+          <Action OrderNumber="12" SoundRouting="None" TTSRouting="None" VariableOp="SetString" VariableName="damageCodeB" VariableExpression="${func:substring(2,2):${var:damageHexCode}}" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="false" Grouping="Or" />
+          </Action>
+          <Action OrderNumber="13" SoundRouting="None" TTSRouting="None" VariableOp="SetString" VariableName="damageCodeC" VariableExpression="${func:substring(4,2):${var:damageHexCode}}" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="false" Grouping="Or" />
+          </Action>
+          <Action OrderNumber="14" SoundRouting="None" TTSRouting="None" VariableOp="SetString" VariableName="damageCodeD" VariableExpression="${func:substring(6,2):${var:damageHexCode}}" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="false" Grouping="Or" />
+          </Action>
+          <Action OrderNumber="15" SoundRouting="None" TTSRouting="None" VariableOp="SetNumeric" VariableName="damageCodeE" VariableExpression="hex2dec(${var:damageCodeB}) - hex2dec(${var:damageCodeD})" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="false" Grouping="Or" />
+          </Action>
+          <Action OrderNumber="16" SoundRouting="None" TTSRouting="None" VariableOp="SetString" VariableName="damageCodeE" VariableExpression="${func:dec2hex2:${var:damageCodeE}}" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="false" Grouping="Or" />
+          </Action>
+          <Action OrderNumber="17" SoundRouting="None" TTSRouting="None" VariableOp="SetString" VariableName="damageHex" VariableExpression="${var:damageCodeD}${var:damageCodeA}${var:damageCodeE}" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="false" Grouping="Or" />
+          </Action>
+          <Action OrderNumber="18" SoundRouting="None" TTSRouting="None" VariableOp="SetNumeric" VariableName="damageReal" VariableExpression="hex2dec(${var:damageHex}) + 1" ActionType="Variable" Asynchronous="False">
+            <Condition Enabled="false" Grouping="Or" />
+          </Action>
+          <Action OrderNumber="19" NamedCallbackName="command" NamedCallbackParam="/p 我的 ${abilityName} 轰出了 ${var:damageReal} 的大直爆！！羡慕不！？" SoundRouting="None" TTSRouting="None" ActionType="NamedCallback" Asynchronous="False">
+            <Condition Enabled="false" Grouping="Or">
+              <ConditionSingle Enabled="true" ExpressionL="${var:damageReal}" ExpressionTypeL="String" ExpressionR="150000" ExpressionTypeR="String" ConditionType="NumericGreaterEqual" />
+            </Condition>
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionGroup Enabled="true" Grouping="And">
+            <ConditionSingle Enabled="true" ExpressionL="${func:substring(-4,1):${type}}" ExpressionTypeL="String" ExpressionR="6" ExpressionTypeR="String" ConditionType="StringEqualNocase" />
+            <ConditionSingle Enabled="true" ExpressionL="${player}" ExpressionTypeL="String" ExpressionR="${_ffxivplayer}" ExpressionTypeR="String" ConditionType="StringEqualNocase" />
+            <ConditionSingle Enabled="true" ExpressionL="${func:substring(-4,1):${damageCode}}" ExpressionTypeL="String" ExpressionR="4" ExpressionTypeR="String" ConditionType="StringEqualNocase" />
+          </ConditionGroup>
+        </Condition>
+      </Trigger>
+    </Triggers>
+  </ExportedFolder>
+</TriggernometryExport>
